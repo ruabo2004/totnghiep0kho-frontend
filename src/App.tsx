@@ -11,6 +11,10 @@ import { AdminLayout } from "./layouts/AdminLayout";
 
 // Public Pages
 import { HomePage } from "./pages/public/HomePage";
+import { ProductsPage } from "./pages/public/ProductsPage";
+import { ProductDetailPage } from "./pages/public/ProductDetailPage";
+import { CategoriesPage } from "./pages/public/CategoriesPage";
+import { CategoryDetailPage } from "./pages/public/CategoryDetailPage";
 
 // Auth Pages
 import { LoginPage } from "./pages/auth/LoginPage";
@@ -21,6 +25,8 @@ import { ResetPasswordPage } from "./pages/auth/ResetPasswordPage";
 // Customer Pages
 import { CustomerDashboard } from "./pages/customer/CustomerDashboard";
 import { ProfilePage } from "./pages/customer/ProfilePage";
+import { CartPage } from "./pages/customer/CartPage";
+import { CheckoutPage } from "./pages/customer/CheckoutPage";
 
 // Seller Pages
 import { SellerDashboard } from "./pages/seller/SellerDashboard";
@@ -36,7 +42,10 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<PublicLayout />}>
             <Route index element={<HomePage />} />
-            {/* More public routes will be added in Phase 3 */}
+            <Route path="products" element={<ProductsPage />} />
+            <Route path="products/:slug" element={<ProductDetailPage />} />
+            <Route path="categories" element={<CategoriesPage />} />
+            <Route path="categories/:slug" element={<CategoryDetailPage />} />
           </Route>
 
           {/* Auth Routes (no layout) */}
@@ -49,8 +58,11 @@ function App() {
           <Route path="/customer" element={<CustomerLayout />}>
             <Route index element={<CustomerDashboard />} />
             <Route path="profile" element={<ProfilePage />} />
-            {/* More customer routes will be added in Phase 4 */}
+            <Route path="cart" element={<CartPage />} />
           </Route>
+
+          {/* Checkout (outside customer layout) */}
+          <Route path="/checkout" element={<CheckoutPage />} />
 
           {/* Seller Routes */}
           <Route path="/seller" element={<SellerLayout />}>
