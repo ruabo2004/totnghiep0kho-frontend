@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { RootState, AppDispatch } from "@/store";
+import type { RootState, AppDispatch } from "@/store";
 import {
   login as loginAction,
   register as registerAction,
@@ -58,6 +58,10 @@ export const useAuth = () => {
     }
   };
 
+  const fetchUser = async () => {
+    return await getCurrentUser();
+  };
+
   return {
     user,
     token,
@@ -68,6 +72,8 @@ export const useAuth = () => {
     register,
     logout,
     getCurrentUser,
+    fetchUser,
   };
 };
+
 

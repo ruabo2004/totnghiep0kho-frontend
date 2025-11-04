@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/utils/cn";
-import { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 interface SidebarItem {
   title: string;
@@ -43,4 +43,5 @@ export const Sidebar = ({ items }: SidebarProps) => {
     </div>
   );
 };
+
 

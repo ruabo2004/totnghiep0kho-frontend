@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import api from "@/services/api";
 import type { User, LoginCredentials, RegisterData } from "@/types/models.types";
 
@@ -149,4 +150,5 @@ const authSlice = createSlice({
 
 export const { clearError, setUser, clearAuth } = authSlice.actions;
 export default authSlice.reducer;
+
 
