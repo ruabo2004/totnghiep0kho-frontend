@@ -1,6 +1,6 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import type { RootState } from "@/store";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import {
@@ -85,4 +85,5 @@ export const SellerLayout = () => {
     </div>
   );
 };
+
 

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import type { RootState } from "@/store";
 
 export const Navbar = () => {
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
@@ -76,4 +76,5 @@ export const Navbar = () => {
     </nav>
   );
 };
+
 

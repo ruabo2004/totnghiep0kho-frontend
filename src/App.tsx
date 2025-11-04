@@ -15,9 +15,12 @@ import { HomePage } from "./pages/public/HomePage";
 // Auth Pages
 import { LoginPage } from "./pages/auth/LoginPage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
+import { ForgotPasswordPage } from "./pages/auth/ForgotPasswordPage";
+import { ResetPasswordPage } from "./pages/auth/ResetPasswordPage";
 
 // Customer Pages
 import { CustomerDashboard } from "./pages/customer/CustomerDashboard";
+import { ProfilePage } from "./pages/customer/ProfilePage";
 
 // Seller Pages
 import { SellerDashboard } from "./pages/seller/SellerDashboard";
@@ -39,10 +42,13 @@ function App() {
           {/* Auth Routes (no layout) */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
 
           {/* Customer Routes */}
           <Route path="/customer" element={<CustomerLayout />}>
             <Route index element={<CustomerDashboard />} />
+            <Route path="profile" element={<ProfilePage />} />
             {/* More customer routes will be added in Phase 4 */}
           </Route>
 
