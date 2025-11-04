@@ -19,7 +19,6 @@ const initialState: AuthState = {
   error: null,
 };
 
-// Async thunks
 export const login = createAsyncThunk(
   "auth/login",
   async (credentials: LoginCredentials, { rejectWithValue }) => {
@@ -60,7 +59,6 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   try {
     await api.post("/auth/logout");
   } catch (error) {
-    // Ignore errors on logout
   }
 });
 
@@ -83,7 +81,6 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Login
     builder
       .addCase(login.pending, (state) => {
         state.isLoading = true;
@@ -102,7 +99,6 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       });
 
-    // Register
     builder
       .addCase(register.pending, (state) => {
         state.isLoading = true;
@@ -120,7 +116,6 @@ const authSlice = createSlice({
         state.error = action.payload as string;
       });
 
-    // Fetch current user
     builder
       .addCase(fetchCurrentUser.pending, (state) => {
         state.isLoading = true;
@@ -138,7 +133,6 @@ const authSlice = createSlice({
         localStorage.removeItem("token");
       });
 
-    // Logout
     builder.addCase(logout.fulfilled, (state) => {
       state.user = null;
       state.token = null;

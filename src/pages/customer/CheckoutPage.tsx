@@ -103,13 +103,11 @@ export const CheckoutPage = () => {
         payment_method: data.payment_method,
       });
 
-      // If VNPay, redirect to payment URL
       if (response.payment_url) {
         window.location.href = response.payment_url;
         return;
       }
 
-      // If COD, show success and redirect
       toast({
         title: "Đặt hàng thành công!",
         description: "Đơn hàng của bạn đã được tạo thành công",
@@ -155,7 +153,6 @@ export const CheckoutPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <ShoppingCart className="h-8 w-8 text-primary" />
         <div>
@@ -166,9 +163,7 @@ export const CheckoutPage = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Form Section */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Customer Information */}
             <Card>
               <CardHeader>
                 <CardTitle>Thông tin khách hàng</CardTitle>
@@ -224,7 +219,6 @@ export const CheckoutPage = () => {
               </CardContent>
             </Card>
 
-            {/* Payment Method */}
             <Card>
               <CardHeader>
                 <CardTitle>Phương thức thanh toán</CardTitle>
@@ -237,7 +231,6 @@ export const CheckoutPage = () => {
                   }
                   className="space-y-3"
                 >
-                  {/* VNPay */}
                   <div
                     className={`flex items-start space-x-3 p-4 border rounded-lg cursor-pointer transition-colors ${
                       paymentMethod === "vnpay"
@@ -258,7 +251,6 @@ export const CheckoutPage = () => {
                     </div>
                   </div>
 
-                  {/* COD */}
                   <div
                     className={`flex items-start space-x-3 p-4 border rounded-lg cursor-pointer transition-colors ${
                       paymentMethod === "cod"
@@ -283,14 +275,12 @@ export const CheckoutPage = () => {
             </Card>
           </div>
 
-          {/* Order Summary */}
           <div className="lg:col-span-1">
             <Card className="sticky top-4">
               <CardHeader>
                 <CardTitle>Đơn hàng ({cartItems.length} sản phẩm)</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {/* Cart Items */}
                 <div className="space-y-3 max-h-64 overflow-y-auto">
                   {cartItems.map((item) => (
                     <div key={item.id} className="flex gap-3">
@@ -363,4 +353,5 @@ export const CheckoutPage = () => {
     </div>
   );
 };
+
 

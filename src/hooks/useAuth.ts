@@ -7,7 +7,7 @@ import {
   logout as logoutAction,
   fetchCurrentUser,
 } from "@/store/slices/authSlice";
-import { LoginCredentials, RegisterData } from "@/types/models.types";
+import type { LoginCredentials, RegisterData } from "@/types/models.types";
 
 export const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +20,6 @@ export const useAuth = () => {
     try {
       const result = await dispatch(loginAction(credentials)).unwrap();
       
-      // Redirect based on role
       if (result.user.role === "admin") {
         navigate("/admin");
       } else if (result.user.role === "seller") {

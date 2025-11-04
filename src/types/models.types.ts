@@ -187,7 +187,6 @@ export interface Setting {
   updated_at?: string;
 }
 
-// Auth types
 export interface LoginCredentials {
   email: string;
   password: string;

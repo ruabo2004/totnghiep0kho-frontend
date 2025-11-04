@@ -32,7 +32,6 @@ export const LoginPage = () => {
     try {
       await login(data);
     } catch (err) {
-      // Error handled by useAuth hook
     }
   };
 
@@ -54,7 +53,6 @@ export const LoginPage = () => {
               </Alert>
             )}
 
-            {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -69,7 +67,6 @@ export const LoginPage = () => {
               )}
             </div>
 
-            {/* Password Field */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Mật khẩu</Label>
@@ -108,7 +105,6 @@ export const LoginPage = () => {
               )}
             </div>
 
-            {/* Remember Me */}
             <div className="flex items-center space-x-2">
               <input
                 id="remember"
