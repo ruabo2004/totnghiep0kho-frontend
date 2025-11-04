@@ -73,7 +73,6 @@ const ToastDescription = React.forwardRef<
 ))
 ToastDescription.displayName = "ToastDescription"
 
-// Toast Provider & Hook
 type ToastActionElement = React.ReactElement<any>
 
 interface ToastType {
@@ -239,5 +238,6 @@ function useToast() {
 }
 
 export { Toast, ToastTitle, ToastDescription, useToast, type ToasterToast }
+
 
 

@@ -21,7 +21,6 @@ export const ProductsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Filters from URL params
   const [filters, setFilters] = useState<FilterValues>({
     category_id: searchParams.get("category_id")
       ? parseInt(searchParams.get("category_id")!)
@@ -39,7 +38,6 @@ export const ProductsPage = () => {
     ? parseInt(searchParams.get("page")!)
     : 1;
 
-  // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -52,7 +50,6 @@ export const ProductsPage = () => {
     fetchCategories();
   }, []);
 
-  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
@@ -76,7 +73,6 @@ export const ProductsPage = () => {
     fetchProducts();
   }, [currentPage, filters]);
 
-  // Update URL params when filters change
   const handleFilterChange = (newFilters: FilterValues) => {
     setFilters(newFilters);
     const params = new URLSearchParams();
@@ -93,7 +89,7 @@ export const ProductsPage = () => {
     if (newFilters.sort_by) {
       params.set("sort_by", newFilters.sort_by);
     }
-    params.set("page", "1"); // Reset to page 1 when filters change
+    params.set("page", "1");
 
     setSearchParams(params);
   };
@@ -139,7 +135,6 @@ export const ProductsPage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Sidebar - Filters */}
         <aside className="lg:col-span-1">
           <div className="sticky top-4">
             <ProductFilters
@@ -151,9 +146,7 @@ export const ProductsPage = () => {
           </div>
         </aside>
 
-        {/* Main Content */}
         <main className="lg:col-span-3">
-          {/* Results Info */}
           {meta && (
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm text-muted-foreground">
@@ -162,21 +155,18 @@ export const ProductsPage = () => {
             </div>
           )}
 
-          {/* Loading State */}
           {isLoading && (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           )}
 
-          {/* Error State */}
           {error && !isLoading && (
             <Alert variant="destructive">
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
 
-          {/* Empty State */}
           {!isLoading && !error && products.length === 0 && (
             <div className="text-center py-12">
               <ShoppingBag className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
@@ -190,7 +180,6 @@ export const ProductsPage = () => {
             </div>
           )}
 
-          {/* Products Grid */}
           {!isLoading && !error && products.length > 0 && (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -203,7 +192,6 @@ export const ProductsPage = () => {
                 ))}
               </div>
 
-              {/* Pagination */}
               {meta && meta.last_page > 1 && (
                 <div className="mt-8 flex items-center justify-center gap-2">
                   <Button
@@ -217,7 +205,6 @@ export const ProductsPage = () => {
                   <div className="flex items-center gap-1">
                     {Array.from({ length: meta.last_page }, (_, i) => i + 1)
                       .filter((page) => {
-                        // Show first, last, current, and adjacent pages
                         return (
                           page === 1 ||
                           page === meta.last_page ||
@@ -225,7 +212,6 @@ export const ProductsPage = () => {
                         );
                       })
                       .map((page, index, array) => {
-                        // Add ellipsis
                         const prevPage = array[index - 1];
                         const showEllipsis = prevPage && page - prevPage > 1;
 
@@ -262,4 +248,5 @@ export const ProductsPage = () => {
     </div>
   );
 };
+
 

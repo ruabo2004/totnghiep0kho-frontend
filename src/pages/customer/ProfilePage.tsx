@@ -19,7 +19,6 @@ export const ProfilePage = () => {
   const { user, fetchUser } = useAuth();
   const { toast } = useToast();
 
-  // Profile Form
   const {
     register: registerProfile,
     handleSubmit: handleProfileSubmit,
@@ -29,7 +28,6 @@ export const ProfilePage = () => {
     resolver: zodResolver(profileSchema),
   });
 
-  // Change Password Form
   const {
     register: registerPassword,
     handleSubmit: handlePasswordSubmit,
@@ -44,7 +42,6 @@ export const ProfilePage = () => {
     },
   });
 
-  // Load user data into form
   useEffect(() => {
     if (user) {
       setProfileValue("name", user.name);
@@ -53,7 +50,6 @@ export const ProfilePage = () => {
     }
   }, [user, setProfileValue]);
 
-  // Update Profile
   const onProfileSubmit = async (data: ProfileFormData) => {
     setIsUpdatingProfile(true);
 
@@ -75,7 +71,6 @@ export const ProfilePage = () => {
     }
   };
 
-  // Change Password
   const onPasswordSubmit = async (data: ChangePasswordFormData) => {
     setIsChangingPassword(true);
 
@@ -130,7 +125,6 @@ export const ProfilePage = () => {
             </TabsTrigger>
           </TabsList>
 
-          {/* Profile Tab */}
           <TabsContent value="profile">
             <Card>
               <CardHeader>
@@ -141,7 +135,6 @@ export const ProfilePage = () => {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleProfileSubmit(onProfileSubmit)} className="space-y-4">
-                  {/* Name Field */}
                   <div className="space-y-2">
                     <Label htmlFor="name">
                       <User className="inline mr-2 h-4 w-4" />
@@ -161,7 +154,6 @@ export const ProfilePage = () => {
                     )}
                   </div>
 
-                  {/* Email Field */}
                   <div className="space-y-2">
                     <Label htmlFor="email">
                       <Mail className="inline mr-2 h-4 w-4" />
@@ -181,7 +173,6 @@ export const ProfilePage = () => {
                     )}
                   </div>
 
-                  {/* Phone Field */}
                   <div className="space-y-2">
                     <Label htmlFor="phone">
                       <Phone className="inline mr-2 h-4 w-4" />
@@ -201,7 +192,6 @@ export const ProfilePage = () => {
                     )}
                   </div>
 
-                  {/* Account Info */}
                   <div className="rounded-lg border p-4 bg-muted/50">
                     <h4 className="font-medium mb-2">Thông tin tài khoản</h4>
                     <div className="space-y-1 text-sm text-muted-foreground">
@@ -234,7 +224,6 @@ export const ProfilePage = () => {
             </Card>
           </TabsContent>
 
-          {/* Password Tab */}
           <TabsContent value="password">
             <Card>
               <CardHeader>
@@ -252,7 +241,6 @@ export const ProfilePage = () => {
                     </AlertDescription>
                   </Alert>
 
-                  {/* Current Password */}
                   <div className="space-y-2">
                     <Label htmlFor="current_password">Mật khẩu hiện tại</Label>
                     <Input
@@ -269,7 +257,6 @@ export const ProfilePage = () => {
                     )}
                   </div>
 
-                  {/* New Password */}
                   <div className="space-y-2">
                     <Label htmlFor="password">Mật khẩu mới</Label>
                     <Input
@@ -286,7 +273,6 @@ export const ProfilePage = () => {
                     )}
                   </div>
 
-                  {/* Confirm New Password */}
                   <div className="space-y-2">
                     <Label htmlFor="password_confirmation">
                       Xác nhận mật khẩu mới
@@ -331,4 +317,5 @@ export const ProfilePage = () => {
     </div>
   );
 };
+
 

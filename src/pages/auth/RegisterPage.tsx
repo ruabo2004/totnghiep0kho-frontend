@@ -34,7 +34,6 @@ export const RegisterPage = () => {
 
   const password = watch("password");
 
-  // Password strength indicator
   const getPasswordStrength = (pwd: string) => {
     if (!pwd) return { strength: 0, text: "" };
     let strength = 0;
@@ -54,7 +53,6 @@ export const RegisterPage = () => {
     try {
       await registerUser(data);
     } catch (err) {
-      // Error handled by useAuth hook
     }
   };
 
@@ -76,7 +74,6 @@ export const RegisterPage = () => {
               </Alert>
             )}
 
-            {/* Name Field */}
             <div className="space-y-2">
               <Label htmlFor="name">Họ và tên</Label>
               <Input
@@ -91,7 +88,6 @@ export const RegisterPage = () => {
               )}
             </div>
 
-            {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -106,7 +102,6 @@ export const RegisterPage = () => {
               )}
             </div>
 
-            {/* Phone Field */}
             <div className="space-y-2">
               <Label htmlFor="phone">
                 Số điện thoại <span className="text-muted-foreground">(Không bắt buộc)</span>
@@ -123,7 +118,6 @@ export const RegisterPage = () => {
               )}
             </div>
 
-            {/* Password Field */}
             <div className="space-y-2">
               <Label htmlFor="password">Mật khẩu</Label>
               <div className="relative">
@@ -177,7 +171,6 @@ export const RegisterPage = () => {
               )}
             </div>
 
-            {/* Confirm Password Field */}
             <div className="space-y-2">
               <Label htmlFor="password_confirmation">Xác nhận mật khẩu</Label>
               <div className="relative">
@@ -208,7 +201,6 @@ export const RegisterPage = () => {
               )}
             </div>
 
-            {/* Terms */}
             <div className="flex items-start space-x-2 text-sm">
               <CheckCircle2 className="h-4 w-4 text-muted-foreground mt-0.5" />
               <p className="text-muted-foreground">

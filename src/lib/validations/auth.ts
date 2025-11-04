@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Login validation schema
 export const loginSchema = z.object({
   email: z
     .string()
@@ -15,7 +14,6 @@ export const loginSchema = z.object({
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
-// Register validation schema
 export const registerSchema = z
   .object({
     name: z
@@ -50,7 +48,6 @@ export const registerSchema = z
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 
-// Forgot password validation schema
 export const forgotPasswordSchema = z.object({
   email: z
     .string()
@@ -60,7 +57,6 @@ export const forgotPasswordSchema = z.object({
 
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
-// Reset password validation schema
 export const resetPasswordSchema = z
   .object({
     token: z.string().min(1, "Token không hợp lệ"),
@@ -78,7 +74,6 @@ export const resetPasswordSchema = z
 
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 
-// Profile update validation schema
 export const profileSchema = z.object({
   name: z
     .string()
@@ -99,7 +94,6 @@ export const profileSchema = z.object({
 
 export type ProfileFormData = z.infer<typeof profileSchema>;
 
-// Change password validation schema
 export const changePasswordSchema = z
   .object({
     current_password: z.string().min(1, "Mật khẩu hiện tại là bắt buộc"),
@@ -115,4 +109,5 @@ export const changePasswordSchema = z
   });
 
 export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
+
 

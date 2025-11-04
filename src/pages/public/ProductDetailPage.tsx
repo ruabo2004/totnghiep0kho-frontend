@@ -45,19 +45,16 @@ export const ProductDetailPage = () => {
       setError(null);
 
       try {
-        // Fetch product
         const productData = await productService.getProduct(slug);
         setProduct(productData);
         setSelectedImage(productData.thumbnail);
 
-        // Fetch related products
         const relatedData = await productService.getRelatedProducts(
           productData.id,
           4
         );
         setRelatedProducts(relatedData);
 
-        // Fetch reviews
         const reviewsData = await productService.getProductReviews(productData.id);
         setReviews(reviewsData);
       } catch (err: any) {
@@ -156,7 +153,6 @@ export const ProductDetailPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Back Button */}
       <Button variant="ghost" asChild className="mb-4">
         <Link to="/products">
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -165,9 +161,7 @@ export const ProductDetailPage = () => {
       </Button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-        {/* Images */}
         <div className="space-y-4">
-          {/* Main Image */}
           <div className="aspect-[4/3] overflow-hidden rounded-lg border bg-muted">
             <img
               src={selectedImage || "/placeholder-product.png"}
@@ -176,7 +170,6 @@ export const ProductDetailPage = () => {
             />
           </div>
 
-          {/* Thumbnail Gallery */}
           {images.length > 1 && (
             <div className="grid grid-cols-4 gap-2">
               {images.map((image, index) => (
@@ -200,9 +193,7 @@ export const ProductDetailPage = () => {
           )}
         </div>
 
-        {/* Product Info */}
         <div className="space-y-6">
-          {/* Category & Status */}
           <div className="flex items-center gap-2">
             {product.category && (
               <Link
@@ -217,10 +208,8 @@ export const ProductDetailPage = () => {
             )}
           </div>
 
-          {/* Product Name */}
           <h1 className="text-3xl font-bold">{product.name}</h1>
 
-          {/* Stats */}
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
@@ -240,20 +229,17 @@ export const ProductDetailPage = () => {
             </div>
           </div>
 
-          {/* Price */}
           <div className="py-4 border-y">
             <p className="text-3xl font-bold text-primary">
               {formatPrice(product.price)}
             </p>
           </div>
 
-          {/* Description */}
           <div>
             <h3 className="font-semibold mb-2">Mô tả ngắn</h3>
             <p className="text-muted-foreground">{product.description}</p>
           </div>
 
-          {/* Seller Info */}
           {product.seller && (
             <Card>
               <CardContent className="flex items-center gap-3 pt-6">
@@ -271,7 +257,6 @@ export const ProductDetailPage = () => {
             </Card>
           )}
 
-          {/* Actions */}
           <div className="flex gap-3">
             <Button
               size="lg"
@@ -289,7 +274,6 @@ export const ProductDetailPage = () => {
         </div>
       </div>
 
-      {/* Tabs */}
       <Tabs defaultValue="content" className="mb-12">
         <TabsList className="grid w-full grid-cols-2 max-w-md">
           <TabsTrigger value="content">Chi tiết</TabsTrigger>
@@ -360,7 +344,6 @@ export const ProductDetailPage = () => {
         </TabsContent>
       </Tabs>
 
-      {/* Related Products */}
       {relatedProducts.length > 0 && (
         <div>
           <h2 className="text-2xl font-bold mb-6">Sản phẩm liên quan</h2>
@@ -393,4 +376,5 @@ export const ProductDetailPage = () => {
     </div>
   );
 };
+
 
