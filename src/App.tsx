@@ -32,6 +32,12 @@ import { FavoritesPage } from "./pages/customer/FavoritesPage";
 import { ReviewsPage } from "./pages/customer/ReviewsPage";
 
 import { SellerDashboard } from "./pages/seller/SellerDashboard";
+import SellerProductsPage from "./pages/seller/ProductsPage";
+import ProductFormPage from "./pages/seller/ProductFormPage";
+import SellerOrdersPage from "./pages/seller/OrdersPage";
+import CommissionsPage from "./pages/seller/CommissionsPage";
+import WithdrawalsPage from "./pages/seller/WithdrawalsPage";
+import ShopProfilePage from "./pages/seller/ShopProfilePage";
 
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 
@@ -114,6 +120,13 @@ function App() {
             }
           >
             <Route index element={<SellerDashboard />} />
+            <Route path="products" element={<SellerProductsPage />} />
+            <Route path="products/create" element={<ProductFormPage />} />
+            <Route path="products/:id/edit" element={<ProductFormPage />} />
+            <Route path="orders" element={<SellerOrdersPage />} />
+            <Route path="commissions" element={<CommissionsPage />} />
+            <Route path="withdrawals" element={<WithdrawalsPage />} />
+            <Route path="profile" element={<ShopProfilePage />} />
           </Route>
 
           {/* Admin Routes - Protected */}

@@ -26,19 +26,9 @@ const sellerMenuItems = [
     icon: Package,
   },
   {
-    title: "Thêm sản phẩm",
-    href: "/seller/products/add",
-    icon: ShoppingBag,
-  },
-  {
     title: "Đơn hàng",
     href: "/seller/orders",
     icon: ShoppingBag,
-  },
-  {
-    title: "Thống kê sản phẩm",
-    href: "/seller/statistics",
-    icon: BarChart3,
   },
   {
     title: "Hoa hồng",
@@ -51,14 +41,9 @@ const sellerMenuItems = [
     icon: Wallet,
   },
   {
-    title: "Thông tin Shop",
-    href: "/seller/shop",
-    icon: Store,
-  },
-  {
-    title: "Hồ sơ",
+    title: "Hồ sơ cửa hàng",
     href: "/seller/profile",
-    icon: User,
+    icon: Store,
   },
 ];
 
