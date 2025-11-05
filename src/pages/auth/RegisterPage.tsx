@@ -1,68 +1,51 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useAuth } from "@/hooks/useAuth";
-import { registerSchema, type RegisterFormData } from "@/lib/validations/auth";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeOff, UserPlus } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { registerSchema, type RegisterFormData } from '@/lib/validations/auth';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
-export const RegisterPage = () => {
+export default function RegisterPage() {
+  const navigate = useNavigate();
+  const { register: registerUser, isLoading, error } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { register: registerUser, isLoading, error } = useAuth();
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      password: "",
-      password_confirmation: "",
-    },
   });
-
-  const password = watch("password");
-
-  const getPasswordStrength = (pwd: string) => {
-    if (!pwd) return { strength: 0, text: "" };
-    let strength = 0;
-    if (pwd.length >= 6) strength++;
-    if (pwd.length >= 8) strength++;
-    if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) strength++;
-    if (/\d/.test(pwd)) strength++;
-    if (/[^A-Za-z0-9]/.test(pwd)) strength++;
-
-    const labels = ["Yếu", "Trung bình", "Khá", "Mạnh", "Rất mạnh"];
-    return { strength, text: labels[Math.min(strength - 1, 4)] || "" };
-  };
-
-  const passwordStrength = getPasswordStrength(password);
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
       await registerUser(data);
+      // Navigation is handled in useAuth hook
     } catch (err) {
+      console.error('Registration error:', err);
     }
   };
 
   return (
-    <div className="container mx-auto px-4 py-16 flex items-center justify-center min-h-screen bg-muted/20">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Đăng ký</CardTitle>
-          <CardDescription>
-            Tạo tài khoản mới để bắt đầu mua bán tài liệu
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+              <UserPlus className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <CardTitle className="text-2xl text-center">Đăng ký tài khoản</CardTitle>
+          <CardDescription className="text-center">
+            Tạo tài khoản mới để bắt đầu mua sắm tài liệu
           </CardDescription>
         </CardHeader>
 
@@ -80,11 +63,11 @@ export const RegisterPage = () => {
                 id="name"
                 type="text"
                 placeholder="Nguyễn Văn A"
-                {...register("name")}
+                {...register('name')}
                 disabled={isLoading}
               />
               {errors.name && (
-                <p className="text-sm text-destructive">{errors.name.message}</p>
+                <p className="text-sm text-red-500">{errors.name.message}</p>
               )}
             </div>
 
@@ -93,28 +76,26 @@ export const RegisterPage = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="example@email.com"
-                {...register("email")}
+                placeholder="your@email.com"
+                {...register('email')}
                 disabled={isLoading}
               />
               {errors.email && (
-                <p className="text-sm text-destructive">{errors.email.message}</p>
+                <p className="text-sm text-red-500">{errors.email.message}</p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone">
-                Số điện thoại <span className="text-muted-foreground">(Không bắt buộc)</span>
-              </Label>
+              <Label htmlFor="phone">Số điện thoại (Tùy chọn)</Label>
               <Input
                 id="phone"
                 type="tel"
                 placeholder="0123456789"
-                {...register("phone")}
+                {...register('phone')}
                 disabled={isLoading}
               />
               {errors.phone && (
-                <p className="text-sm text-destructive">{errors.phone.message}</p>
+                <p className="text-sm text-red-500">{errors.phone.message}</p>
               )}
             </div>
 
@@ -123,52 +104,25 @@ export const RegisterPage = () => {
               <div className="relative">
                 <Input
                   id="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
-                  {...register("password")}
+                  {...register('password')}
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  disabled={isLoading}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {password && (
-                <div className="space-y-1">
-                  <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <div
-                        key={i}
-                        className={`h-1 flex-1 rounded ${
-                          i < passwordStrength.strength
-                            ? passwordStrength.strength <= 2
-                              ? "bg-red-500"
-                              : passwordStrength.strength === 3
-                              ? "bg-yellow-500"
-                              : "bg-green-500"
-                            : "bg-muted"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  {passwordStrength.text && (
-                    <p className="text-xs text-muted-foreground">
-                      Độ mạnh: {passwordStrength.text}
-                    </p>
-                  )}
-                </div>
-              )}
               {errors.password && (
-                <p className="text-sm text-destructive">{errors.password.message}</p>
+                <p className="text-sm text-red-500">{errors.password.message}</p>
               )}
+              <p className="text-xs text-gray-500">
+                Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -176,43 +130,42 @@ export const RegisterPage = () => {
               <div className="relative">
                 <Input
                   id="password_confirmation"
-                  type={showConfirmPassword ? "text" : "password"}
+                  type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="••••••••"
-                  {...register("password_confirmation")}
+                  {...register('password_confirmation')}
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  disabled={isLoading}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
               {errors.password_confirmation && (
-                <p className="text-sm text-destructive">
-                  {errors.password_confirmation.message}
-                </p>
+                <p className="text-sm text-red-500">{errors.password_confirmation.message}</p>
               )}
             </div>
 
-            <div className="flex items-start space-x-2 text-sm">
-              <CheckCircle2 className="h-4 w-4 text-muted-foreground mt-0.5" />
-              <p className="text-muted-foreground">
-                Bằng việc đăng ký, bạn đồng ý với{" "}
+            <div className="flex items-start space-x-2">
+              <input
+                type="checkbox"
+                id="terms"
+                className="rounded border-gray-300 mt-1"
+                required
+                disabled={isLoading}
+              />
+              <Label htmlFor="terms" className="text-sm font-normal cursor-pointer leading-relaxed">
+                Tôi đồng ý với{' '}
                 <Link to="/terms" className="text-primary hover:underline">
-                  Điều khoản sử dụng
-                </Link>{" "}
-                và{" "}
+                  Điều khoản dịch vụ
+                </Link>{' '}
+                và{' '}
                 <Link to="/privacy" className="text-primary hover:underline">
                   Chính sách bảo mật
                 </Link>
-              </p>
+              </Label>
             </div>
           </CardContent>
 
@@ -224,25 +177,41 @@ export const RegisterPage = () => {
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Đang đăng ký...
+                  <span className="mr-2">Đang xử lý...</span>
+                  <span className="animate-spin">⏳</span>
                 </>
               ) : (
-                "Đăng ký"
+                'Đăng ký'
               )}
             </Button>
 
-            <p className="text-sm text-center text-muted-foreground">
-              Đã có tài khoản?{" "}
-              <Link to="/login" className="text-primary hover:underline font-medium">
+            <p className="text-sm text-center text-gray-600">
+              Đã có tài khoản?{' '}
+              <Link to="/login" className="text-primary font-medium hover:underline">
                 Đăng nhập ngay
               </Link>
             </p>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white px-2 text-muted-foreground">Hoặc</span>
+              </div>
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() => navigate('/')}
+            >
+              Về trang chủ
+            </Button>
           </CardFooter>
         </form>
       </Card>
     </div>
   );
-};
-
-
+}

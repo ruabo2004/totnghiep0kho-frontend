@@ -1,17 +1,18 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, ArrowLeft, CheckCircle2 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import api from "@/services/api";
-import { forgotPasswordSchema, type ForgotPasswordFormData } from "@/lib/validations/auth";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { KeyRound, ArrowLeft } from 'lucide-react';
+import { authService } from '@/services/authService';
+import { forgotPasswordSchema, type ForgotPasswordFormData } from '@/lib/validations/auth';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
-export const ForgotPasswordPage = () => {
+export default function ForgotPasswordPage() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -22,21 +23,16 @@ export const ForgotPasswordPage = () => {
     formState: { errors },
   } = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(forgotPasswordSchema),
-    defaultValues: {
-      email: "",
-    },
   });
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
-    setIsLoading(true);
-    setError(null);
-    setSuccess(false);
-
     try {
-      await api.post("/auth/forgot-password", data);
+      setIsLoading(true);
+      setError(null);
+      await authService.forgotPassword(data);
       setSuccess(true);
     } catch (err: any) {
-      setError(err.response?.data?.message || "Có lỗi xảy ra. Vui lòng thử lại!");
+      setError(err.response?.data?.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
     } finally {
       setIsLoading(false);
     }
@@ -44,44 +40,38 @@ export const ForgotPasswordPage = () => {
 
   if (success) {
     return (
-      <div className="container mx-auto px-4 py-16 flex items-center justify-center min-h-screen bg-muted/20">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1">
             <div className="flex justify-center mb-4">
-              <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-                <CheckCircle2 className="h-6 w-6 text-green-600" />
+              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
+                <KeyRound className="w-8 h-8 text-white" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-bold text-center">
-              Email đã được gửi!
-            </CardTitle>
+            <CardTitle className="text-2xl text-center">Email đã được gửi!</CardTitle>
             <CardDescription className="text-center">
-              Chúng tôi đã gửi link đặt lại mật khẩu đến email của bạn
+              Chúng tôi đã gửi link đặt lại mật khẩu đến email của bạn. Vui lòng kiểm tra hộp thư.
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-4">
-            <Alert>
-              <AlertDescription className="text-sm">
-                Vui lòng kiểm tra hộp thư đến (và cả thư spam) để tìm email từ chúng tôi.
-                Link sẽ hết hạn sau 60 phút.
-              </AlertDescription>
-            </Alert>
-          </CardContent>
-
           <CardFooter className="flex flex-col space-y-3">
-            <Button asChild className="w-full">
-              <Link to="/login">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Quay lại đăng nhập
-              </Link>
-            </Button>
+            <p className="text-sm text-center text-gray-600">
+              Không nhận được email?{' '}
+              <button
+                onClick={() => setSuccess(false)}
+                className="text-primary font-medium hover:underline"
+              >
+                Gửi lại
+              </button>
+            </p>
+
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => setSuccess(false)}
+              onClick={() => navigate('/login')}
             >
-              Gửi lại email
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Quay lại đăng nhập
             </Button>
           </CardFooter>
         </Card>
@@ -90,12 +80,17 @@ export const ForgotPasswordPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-16 flex items-center justify-center min-h-screen bg-muted/20">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Quên mật khẩu?</CardTitle>
-          <CardDescription>
-            Nhập email của bạn để nhận link đặt lại mật khẩu
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+              <KeyRound className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <CardTitle className="text-2xl text-center">Quên mật khẩu?</CardTitle>
+          <CardDescription className="text-center">
+            Nhập email của bạn và chúng tôi sẽ gửi link để đặt lại mật khẩu
           </CardDescription>
         </CardHeader>
 
@@ -107,26 +102,19 @@ export const ForgotPasswordPage = () => {
               </Alert>
             )}
 
-            {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="example@email.com"
-                {...register("email")}
+                placeholder="your@email.com"
+                {...register('email')}
                 disabled={isLoading}
               />
               {errors.email && (
-                <p className="text-sm text-destructive">{errors.email.message}</p>
+                <p className="text-sm text-red-500">{errors.email.message}</p>
               )}
             </div>
-
-            <Alert>
-              <AlertDescription className="text-sm">
-                Bạn sẽ nhận được email với hướng dẫn đặt lại mật khẩu trong vài phút.
-              </AlertDescription>
-            </Alert>
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-3">
@@ -137,25 +125,27 @@ export const ForgotPasswordPage = () => {
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Đang gửi...
+                  <span className="mr-2">Đang xử lý...</span>
+                  <span className="animate-spin">⏳</span>
                 </>
               ) : (
-                "Gửi link đặt lại mật khẩu"
+                'Gửi link đặt lại mật khẩu'
               )}
             </Button>
 
-            <Button asChild variant="ghost" className="w-full">
-              <Link to="/login">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Quay lại đăng nhập
-              </Link>
+            <Button
+              type="button"
+              variant="ghost"
+              className="w-full"
+              onClick={() => navigate('/login')}
+              disabled={isLoading}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Quay lại đăng nhập
             </Button>
           </CardFooter>
         </form>
       </Card>
     </div>
   );
-};
-
-
+}
